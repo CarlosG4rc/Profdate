@@ -1,0 +1,41 @@
+
+<script>
+    document.addEventListener('DOMContentLoaded',function() {
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems);
+
+        document.addEventListener('DOMContentLoaded',function(){
+            var elems = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenav.init(elems);
+        });
+        google.script.run.withSuccessHandler(completarNombre).autoCompletar();
+    });
+    //escuchador
+    document.getElementById('boton').addEventListener('click', getData);
+    
+    function completarNombre(letras){
+        var autoCompletar = document.getElementById('autocomplete-input');
+        var instances = M.Autocomplete.init(autoCompletar, {data : letras});
+    }
+
+    function getData(){
+        var nombre = document.getElementById('autocomplete-input').value;
+        if(nombre.length > 12){
+            nombre = nombre.toUpperCase() //todo en mayusculas
+            //consultar datos según nombre
+            google.script.run.withSuccessHandler(correo).getEmail(nombre);
+            google.script.run.withSuccessHandler(link).getlink(nombre);
+        }
+    }
+    function correo(email){
+        document.getElementById('mail').value = email;
+        console.log(email);
+        M.updateTextFields();
+    }
+    function link(image){
+      document.getElementById('horario').src = image;
+      // console.log(image);
+      
+    }
+    
+</script>
